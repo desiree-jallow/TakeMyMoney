@@ -15,6 +15,8 @@
 		D73A841A24C9EA1700A6ACCA /* PaymentDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A841924C9EA1700A6ACCA /* PaymentDataTableViewController.swift */; };
 		D73A841F24CA3B0400A6ACCA /* Credit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A841E24CA3B0400A6ACCA /* Credit.swift */; };
 		D73A842124CA3B0F00A6ACCA /* Paypal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A842024CA3B0F00A6ACCA /* Paypal.swift */; };
+		D7F9408F24CF220900109BF2 /* CreditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F9408E24CF220900109BF2 /* CreditTableViewCell.swift */; };
+		D7F9409124CF221800109BF2 /* PaypalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F9409024CF221800109BF2 /* PaypalTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		D73A841924C9EA1700A6ACCA /* PaymentDataTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDataTableViewController.swift; sourceTree = "<group>"; };
 		D73A841E24CA3B0400A6ACCA /* Credit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credit.swift; sourceTree = "<group>"; };
 		D73A842024CA3B0F00A6ACCA /* Paypal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paypal.swift; sourceTree = "<group>"; };
+		D7F9408E24CF220900109BF2 /* CreditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditTableViewCell.swift; sourceTree = "<group>"; };
+		D7F9409024CF221800109BF2 /* PaypalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				D73A840B24C9E27600A6ACCA /* Main.storyboard */,
+				D7F9408E24CF220900109BF2 /* CreditTableViewCell.swift */,
+				D7F9409024CF221800109BF2 /* PaypalTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -170,6 +176,8 @@
 			files = (
 				D73A840624C9E27600A6ACCA /* AppDelegate.swift in Sources */,
 				D73A842124CA3B0F00A6ACCA /* Paypal.swift in Sources */,
+				D7F9409124CF221800109BF2 /* PaypalTableViewCell.swift in Sources */,
+				D7F9408F24CF220900109BF2 /* CreditTableViewCell.swift in Sources */,
 				D73A841A24C9EA1700A6ACCA /* PaymentDataTableViewController.swift in Sources */,
 				D73A841F24CA3B0400A6ACCA /* Credit.swift in Sources */,
 				D73A840824C9E27600A6ACCA /* SceneDelegate.swift in Sources */,
