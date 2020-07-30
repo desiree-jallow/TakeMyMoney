@@ -123,16 +123,16 @@
                                                             <rect key="frame" x="0.0" y="157.5" width="374" height="127.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="atV-6D-NRV">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="42.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="64"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Valid until" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKb-Mx-ba1">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="172" height="42.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="172" height="64"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CVV" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhT-gS-1pf">
-                                                                            <rect key="frame" x="202" y="0.0" width="172" height="42.5"/>
+                                                                            <rect key="frame" x="202" y="0.0" width="172" height="64"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -140,26 +140,20 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ale-eQ-PFh">
-                                                                    <rect key="frame" x="0.0" y="42.5" width="374" height="42.5"/>
+                                                                    <rect key="frame" x="0.0" y="64" width="374" height="63.5"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Month/ Year" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0BB-qt-UjO">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="177" height="42.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="177" height="63.5"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                             <textInputTraits key="textInputTraits"/>
                                                                         </textField>
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bgQ-ry-NHU">
-                                                                            <rect key="frame" x="197" y="0.0" width="177" height="42.5"/>
+                                                                            <rect key="frame" x="197" y="0.0" width="177" height="63.5"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                             <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                                         </textField>
                                                                     </subviews>
                                                                 </stackView>
-                                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="vqJ-YA-2Ry">
-                                                                    <rect key="frame" x="0.0" y="85" width="374" height="43"/>
-                                                                    <connections>
-                                                                        <action selector="datePickerChanged:" destination="w0S-8W-U22" eventType="valueChanged" id="Bj0-kO-o0s"/>
-                                                                    </connections>
-                                                                </datePicker>
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Cqk-dM-MGd">
@@ -219,7 +213,6 @@
                                             <outlet property="cvvLabel" destination="yhT-gS-1pf" id="YJR-r5-0uv"/>
                                             <outlet property="cvvTextField" destination="bgQ-ry-NHU" id="gJ4-b0-S5y"/>
                                             <outlet property="validLabel" destination="LKb-Mx-ba1" id="xUl-r8-zC4"/>
-                                            <outlet property="validTextFied" destination="0BB-qt-UjO" id="qKk-nm-csf"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paypalCell" rowHeight="176" id="ZKI-0l-QJf" customClass="PaypalTableViewCell" customModule="TakeMyMoney" customModuleProvider="target">
@@ -308,10 +301,10 @@
                         <outlet property="amountLabel" destination="qbv-Um-2T5" id="1vT-gE-1S0"/>
                         <outlet property="confirmButton" destination="zZr-0P-c5P" id="YCK-gO-08l"/>
                         <outlet property="creditButton" destination="jPu-FW-gbj" id="IAC-0C-S6T"/>
-                        <outlet property="datePicker" destination="vqJ-YA-2Ry" id="Soy-W0-uoL"/>
                         <outlet property="paymentMethodLabel" destination="NkA-Oe-R3W" id="zKJ-DX-reZ"/>
                         <outlet property="paypalButton" destination="vVA-Hy-w2y" id="OiS-cC-21f"/>
                         <outlet property="totalPriceLabel" destination="9oO-c5-TxT" id="pCE-g9-tdk"/>
+                        <outlet property="validTextField" destination="0BB-qt-UjO" id="IEw-HD-RIY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QE0-dq-kCF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
