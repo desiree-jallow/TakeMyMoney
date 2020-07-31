@@ -115,7 +115,7 @@
                                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter card number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kFS-Zn-nts">
                                                                     <rect key="frame" x="0.0" y="64" width="374" height="63.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES" textContentType="cc-number"/>
                                                                 </textField>
                                                             </subviews>
                                                         </stackView>
@@ -150,7 +150,7 @@
                                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bgQ-ry-NHU">
                                                                             <rect key="frame" x="197" y="0.0" width="177" height="63.5"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                                            <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
                                                                         </textField>
                                                                     </subviews>
                                                                 </stackView>
@@ -168,7 +168,7 @@
                                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your name and surname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yt4-Mx-n5D">
                                                                     <rect key="frame" x="0.0" y="64" width="374" height="63.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                                                 </textField>
                                                             </subviews>
                                                         </stackView>
@@ -205,15 +205,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.89794141049999998" green="0.89809560779999997" blue="0.89793163539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <outlet property="cardHlderTextField" destination="yt4-Mx-n5D" id="0Y4-9V-sBl"/>
-                                            <outlet property="cardHolderLabel" destination="vaG-WD-iDs" id="bzU-dF-mJs"/>
-                                            <outlet property="cardNumberLabel" destination="FNc-Tb-LAN" id="iax-Ws-jbk"/>
-                                            <outlet property="cardNumberTextField" destination="kFS-Zn-nts" id="g6U-80-qC1"/>
-                                            <outlet property="cvvLabel" destination="yhT-gS-1pf" id="YJR-r5-0uv"/>
-                                            <outlet property="cvvTextField" destination="bgQ-ry-NHU" id="gJ4-b0-S5y"/>
-                                            <outlet property="validLabel" destination="LKb-Mx-ba1" id="xUl-r8-zC4"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="paypalCell" rowHeight="176" id="ZKI-0l-QJf" customClass="PaypalTableViewCell" customModule="TakeMyMoney" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="864" width="414" height="176"/>
@@ -234,12 +225,12 @@
                                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rzL-k3-WQf">
                                                                     <rect key="frame" x="0.0" y="0.0" width="277.5" height="62"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES" textContentType="email"/>
                                                                 </textField>
                                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nKa-IN-j5Z">
                                                                     <rect key="frame" x="0.0" y="92" width="277.5" height="62"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" textContentType="password"/>
                                                                 </textField>
                                                             </subviews>
                                                         </stackView>
@@ -254,11 +245,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.89794141049999998" green="0.89809560779999997" blue="0.89793163539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <outlet property="emailTextField" destination="rzL-k3-WQf" id="PjT-TX-qLx"/>
-                                            <outlet property="passWordTextField" destination="nKa-IN-j5Z" id="B8g-6z-DzK"/>
-                                            <outlet property="paypalImage" destination="1PK-QR-ULU" id="pCX-i0-FUi"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="buttonCell" rowHeight="90" id="imR-UT-sN5">
                                         <rect key="frame" x="0.0" y="1040" width="414" height="90"/>
@@ -298,12 +284,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="x9A-3s-416"/>
                     <connections>
-                        <outlet property="amountLabel" destination="qbv-Um-2T5" id="1vT-gE-1S0"/>
+                        <outlet property="cardHlderTextField" destination="yt4-Mx-n5D" id="McA-Eg-lku"/>
+                        <outlet property="cardNumberTextField" destination="kFS-Zn-nts" id="guP-f2-gQk"/>
                         <outlet property="confirmButton" destination="zZr-0P-c5P" id="YCK-gO-08l"/>
                         <outlet property="creditButton" destination="jPu-FW-gbj" id="IAC-0C-S6T"/>
-                        <outlet property="paymentMethodLabel" destination="NkA-Oe-R3W" id="zKJ-DX-reZ"/>
+                        <outlet property="cvvTextField" destination="bgQ-ry-NHU" id="TxU-v6-0Bz"/>
+                        <outlet property="emailTextField" destination="rzL-k3-WQf" id="O7f-Kl-6R7"/>
+                        <outlet property="passWordTextField" destination="nKa-IN-j5Z" id="9av-kl-wLZ"/>
                         <outlet property="paypalButton" destination="vVA-Hy-w2y" id="OiS-cC-21f"/>
-                        <outlet property="totalPriceLabel" destination="9oO-c5-TxT" id="pCE-g9-tdk"/>
                         <outlet property="validTextField" destination="0BB-qt-UjO" id="IEw-HD-RIY"/>
                     </connections>
                 </tableViewController>

@@ -8,23 +8,22 @@
 
 import UIKit
 
-class PaymentDataTableViewController: UITableViewController, UITextFieldDelegate {
+class PaymentDataTableViewController: UITableViewController {
 
     @IBOutlet var paypalButton: UIButton!
+    @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var passWordTextField: UITextField!
+    
     @IBOutlet var creditButton: UIButton!
-    @IBOutlet var confirmButton: UIButton!
-    @IBOutlet var totalPriceLabel: UILabel!
-    @IBOutlet var amountLabel: UILabel!
-    @IBOutlet var paymentMethodLabel: UILabel!
+    @IBOutlet var cardNumberTextField: UITextField!
+    @IBOutlet var cvvTextField: UITextField!
+    @IBOutlet var cardHlderTextField: UITextField!
     @IBOutlet var validTextField: UITextField!
-   
+    
+    @IBOutlet var confirmButton: UIButton!
     
     let creditIndexPath = IndexPath(row: 1, section: 0)
     let paypalIndexPath = IndexPath(row: 2, section: 0)
-    
-    
-    
-    
     
     
     override func viewDidLoad() {
@@ -41,7 +40,15 @@ class PaymentDataTableViewController: UITableViewController, UITextFieldDelegate
         
         datePicker.delegate = self
         datePicker.dataSource = self
-    
+        
+        
+        emailTextField.delegate = self
+        passWordTextField.delegate = self
+        cardNumberTextField.delegate = self
+        cvvTextField.delegate = self
+        cardHlderTextField.delegate = self
+        validTextField.delegate = self
+
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -100,8 +107,6 @@ class PaymentDataTableViewController: UITableViewController, UITextFieldDelegate
 
         return height
     }
-    
-
     /*
     // MARK: - Navigation
 
@@ -111,6 +116,7 @@ class PaymentDataTableViewController: UITableViewController, UITextFieldDelegate
         // Pass the selected object to the new view controller.
     }
     */
+    
     func createYearsArray() -> [String] {
         
         let calender = Calendar.current
@@ -126,8 +132,6 @@ class PaymentDataTableViewController: UITableViewController, UITextFieldDelegate
 }
 
 extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    
     
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -160,3 +164,55 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
     }
     
 }
+
+extension PaymentDataTableViewController: UITextFieldDelegate {
+
+//validate entry before end editing
+    //use to only allow 16 characters for card number
+    //3 characters for cvv
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
+        return true
+    }
+
+   //use to make sure user can not type in letters only numbers
+    
+    //end editing after amount of characters is reached
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+
+        var cardNumber = cardNumberTextField.text ?? ""
+        
+        guard !string.isEmpty else {
+            return true
+        }
+        
+        if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
+            
+            return false
+        }
+        
+        if cardNumber.count < 12 {
+            cardNumber = cardNumber + string
+            cardNumberTextField.text! = "*" + cardNumberTextField.text!
+            return false
+        } else {
+        
+        guard let stringRange = Range(range, in: cardNumber) else { return false }
+        let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 16
+        }
+       
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+     
+        
+        return true
+    }
+}
+
