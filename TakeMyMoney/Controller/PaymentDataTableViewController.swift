@@ -166,19 +166,12 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
 }
 
 extension PaymentDataTableViewController: UITextFieldDelegate {
-
-//validate entry before end editing
-    //use to only allow 16 characters for card number
-    //3 characters for cvv
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         
         return true
     }
 
-   //use to make sure user can not type in letters only numbers
-    
-    //end editing after amount of characters is reached
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -190,50 +183,42 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
             return true
         }
         
-        if textField == cardNumberTextField {
-            if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))  {
+    if textField == cardNumberTextField {
+        if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))  {
             
             return false
-        }
-            
-    }
-
-        if textField == cvvTextField {
-
-            if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
-           return false
-        }
     }
             
-            if textField == cvvTextField {
-                if cvvNumber.count < 3 {
-              cvvNumber = cvvNumber + string
-             cvvTextField.text! = "*" + cvvTextField.text!
-                    return false
-                } else {
-                
-                guard let stringRange = Range(range, in: cvvNumber) else { return false }
-                let updatedText = cvvNumber.replacingCharacters(in: stringRange, with: string)
-                return updatedText.count <= 3
-                }
-        }
-   
-        
-        if textField == cardNumberTextField {
-            if cardNumber.count < 12 {
+        if cardNumber.count < 12 {
             cardNumber = cardNumber + string
             cardNumberTextField.text! = "*" + cardNumberTextField.text!
             return false
         } else {
-        
-                guard let stringRange = Range(range, in: cardNumber) else { return false }
-                let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
+                
+        guard let stringRange = Range(range, in: cardNumber) else { return false }
+            let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
                 return updatedText.count <= 16
-                }
- 
-            }
-            return false
         }
+    }
+
+    if textField == cvvTextField {
+
+        if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
+        return false
+    }
+        if cvvNumber.count < 3 {
+            cvvNumber = cvvNumber + string
+            cvvTextField.text! = "*" + cvvTextField.text!
+            return false
+            } else {
+                           
+            guard let stringRange = Range(range, in: cvvNumber) else { return false }
+                let updatedText = cvvNumber.replacingCharacters(in: stringRange, with: string)
+                return updatedText.count <= 3
+        }
+    }
+            return false
+}
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
