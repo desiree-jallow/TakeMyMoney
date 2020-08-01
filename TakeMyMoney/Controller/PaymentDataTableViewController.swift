@@ -184,35 +184,63 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
         
 
         var cardNumber = cardNumberTextField.text ?? ""
+        var cvvNumber = cvvTextField.text ?? ""
         
         guard !string.isEmpty else {
             return true
         }
         
-        if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
+        if textField == cardNumberTextField {
+            if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))  {
             
             return false
         }
+            
+    }
+
+        if textField == cvvTextField {
+
+            if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
+           return false
+        }
+    }
+            
+            if textField == cvvTextField {
+                if cvvNumber.count < 3 {
+              cvvNumber = cvvNumber + string
+             cvvTextField.text! = "*" + cvvTextField.text!
+                    return false
+                } else {
+                
+                guard let stringRange = Range(range, in: cvvNumber) else { return false }
+                let updatedText = cvvNumber.replacingCharacters(in: stringRange, with: string)
+                return updatedText.count <= 3
+                }
+        }
+   
         
-        if cardNumber.count < 12 {
+        if textField == cardNumberTextField {
+            if cardNumber.count < 12 {
             cardNumber = cardNumber + string
             cardNumberTextField.text! = "*" + cardNumberTextField.text!
             return false
         } else {
         
-        guard let stringRange = Range(range, in: cardNumber) else { return false }
-        let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 16
+                guard let stringRange = Range(range, in: cardNumber) else { return false }
+                let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
+                return updatedText.count <= 16
+                }
+ 
+            }
+            return false
         }
-       
-    }
-    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
-     
         
-        return true
-    }
+            return true
+        }
+
 }
+
 
