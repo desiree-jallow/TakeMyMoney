@@ -9,14 +9,17 @@
 import UIKit
 
 class PaymentDataTableViewController: UITableViewController {
-
+    
     @IBOutlet var paypalButton: UIButton!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passWordTextField: UITextField!
     
     @IBOutlet var creditButton: UIButton!
+    @IBOutlet var cardNumberErrorLabel: UILabel!
     @IBOutlet var cardNumberTextField: UITextField!
+    @IBOutlet var cvvNumberErrorLabel: UILabel!
     @IBOutlet var cvvTextField: UITextField!
+    @IBOutlet var cardHlderErrorLabel: UILabel!
     @IBOutlet var cardHlderTextField: UITextField!
     @IBOutlet var validTextField: UITextField!
     
@@ -25,11 +28,13 @@ class PaymentDataTableViewController: UITableViewController {
     let creditIndexPath = IndexPath(row: 1, section: 0)
     let paypalIndexPath = IndexPath(row: 2, section: 0)
     
+    var cardString = ""
+    var cvvString = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         creditButton.isSelected = true
-       
+        
         paypalButton.layer.cornerRadius = 8
         creditButton.layer.cornerRadius = 8
         confirmButton.layer.cornerRadius = 8
@@ -48,11 +53,11 @@ class PaymentDataTableViewController: UITableViewController {
         cvvTextField.delegate = self
         cardHlderTextField.delegate = self
         validTextField.delegate = self
-
-
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
@@ -64,7 +69,7 @@ class PaymentDataTableViewController: UITableViewController {
             creditButton.backgroundColor = .gray
             
         }
-            creditButton.isSelected = false
+        creditButton.isSelected = false
         
         tableView.reloadData()
     }
@@ -76,14 +81,56 @@ class PaymentDataTableViewController: UITableViewController {
             paypalButton.backgroundColor = .gray
             
         }
-             paypalButton.isSelected = false
+        paypalButton.isSelected = false
         
-       tableView.reloadData()
+        tableView.reloadData()
     }
     
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
-        
+        view.endEditing(true)
     }
+    
+    
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "detailSegue" {
+            
+            let cardNumber = cardNumberTextField.text ?? ""
+            let cvvNumber = cvvTextField.text ?? ""
+            
+            
+            if !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cardString)) || cardNumber.count < 16 {
+                cardNumberTextField.layer.borderColor = UIColor.red.cgColor
+                cardNumberTextField.layer.borderWidth = 1
+                cardNumberErrorLabel.isHidden = false
+                cardNumberTextField.text = ""
+                cardString = ""
+                return false
+                
+            } else {
+                cardNumberErrorLabel.isHidden = true
+                cardNumberTextField.layer.borderColor = UIColor.gray.cgColor
+                cardNumberTextField.layer.borderWidth = 0.15
+            }
+            
+            
+            if !CharacterSet.decimalDigits.isSuperset(of:CharacterSet(charactersIn: cvvString)) || cvvNumber.count < 3 {
+                cvvTextField.layer.borderColor = UIColor.red.cgColor
+                cvvTextField.layer.borderWidth = 1
+                cvvNumberErrorLabel.isHidden = false
+                cvvTextField.text = ""
+                cvvString = ""
+                return false
+                
+            } else {
+                cvvNumberErrorLabel.isHidden = true
+                cvvTextField.layer.borderColor = UIColor.gray.cgColor
+                cvvTextField.layer.borderWidth = 0.15
+            }
+        }
+        return true
+    }
+    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -104,31 +151,9 @@ class PaymentDataTableViewController: UITableViewController {
         } else {
             height = UITableView.automaticDimension
         }
-
+        
         return height
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    func createYearsArray() -> [String] {
-        
-        let calender = Calendar.current
-        let numberOfYears = 12
-        let currentYear = calender.component(.year, from: Date())
-        let finalYear = Calendar.current.date(byAdding: .year, value: numberOfYears, to: Date(), wrappingComponents: true)
-        let yearInt = calender.component(.year, from: finalYear!)
-        let years = (currentYear...yearInt).map {String($0)}
-            return years
-    }
-
-    
 }
 
 extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -158,74 +183,105 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
         if component == 0 {
             return dateFormatter.shortMonthSymbols[row]
         } else {
-           return years[row]
+            return years[row]
         }
         
     }
     
+    func createYearsArray() -> [String] {
+        
+        let calender = Calendar.current
+        let numberOfYears = 12
+        let currentYear = calender.component(.year, from: Date())
+        let finalYear = Calendar.current.date(byAdding: .year, value: numberOfYears, to: Date(), wrappingComponents: true)
+        let yearInt = calender.component(.year, from: finalYear!)
+        let years = (currentYear...yearInt).map {String($0)}
+        return years
+    }
+    
 }
+
 
 extension PaymentDataTableViewController: UITextFieldDelegate {
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        
-        return true
-    }
-
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-
-        var cardNumber = cardNumberTextField.text ?? ""
-        var cvvNumber = cvvTextField.text ?? ""
+        let cardNumber = cardNumberTextField.text ?? ""
+        let cvvNumber = cvvTextField.text ?? ""
         
-        guard !string.isEmpty else {
-            return true
-        }
-        
-    if textField == cardNumberTextField {
-        if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))  {
+        if textField == cardNumberTextField {
             
-            return false
-    }
+            if cardNumber.count < 16 {
+                     cardString.append(string)
+                if string.isEmpty {
+                    cardString.removeLast()
+                }
+            }
             
-        if cardNumber.count < 12 {
-            cardNumber = cardNumber + string
-            cardNumberTextField.text! = "*" + cardNumberTextField.text!
-            return false
-        } else {
+            guard !string.isEmpty else {
+                return true
+            }
+            
+            
+            if cardNumber.count < 12 {
                 
-        guard let stringRange = Range(range, in: cardNumber) else { return false }
-            let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
-                return updatedText.count <= 16
-        }
-    }
-
-    if textField == cvvTextField {
-
-        if !CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
-        return false
-    }
-        if cvvNumber.count < 3 {
-            cvvNumber = cvvNumber + string
-            cvvTextField.text! = "*" + cvvTextField.text!
-            return false
+                cardNumberTextField.text! = "*" + cardNumberTextField.text!
+                return false
             } else {
-                           
-            guard let stringRange = Range(range, in: cvvNumber) else { return false }
-                let updatedText = cvvNumber.replacingCharacters(in: stringRange, with: string)
-                return updatedText.count <= 3
+                
+                guard let stringRange = Range(range, in: cardNumber) else {return false}
+                let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
+                
+                return updatedText.count <= 16
+            }
+            
         }
+        
+        
+        if textField == cvvTextField {
+            
+            if cvvNumber.count < 16 {
+                     cvvString.append(string)
+                if string.isEmpty {
+                    cvvString.removeLast()
+                }
+            }
+            
+            guard !string.isEmpty else {
+                return true
+            }
+            
+            if cvvNumber.count < 3 {
+                cvvTextField.text! = "*" + cvvTextField.text!
+                return false
+            } else {
+                guard let stringRange = Range(range, in: cvvNumber) else {return false}
+                let updatedText = cvvNumber.replacingCharacters(in: stringRange, with: string)
+                
+                return updatedText.count <= 3
+            }
+            
+        }
+        return true
     }
-            return false
-}
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
-        
-            return true
+        switch textField {
+        case cardNumberTextField:
+            validTextField.becomeFirstResponder()
+        case validTextField:
+            cvvTextField.becomeFirstResponder()
+        case cvvTextField:
+            cardHlderTextField.becomeFirstResponder()
+        case emailTextField:
+            passWordTextField.becomeFirstResponder()
+        default:
+            passWordTextField.resignFirstResponder()
         }
-
+        
+        return true
+    }
 }
-
 
