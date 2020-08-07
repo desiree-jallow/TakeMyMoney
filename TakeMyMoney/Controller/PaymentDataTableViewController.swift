@@ -12,7 +12,9 @@ class PaymentDataTableViewController: UITableViewController {
     
     @IBOutlet var paypalButton: UIButton!
     @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var emailErrorLabel: UILabel!
     @IBOutlet var passWordTextField: UITextField!
+    @IBOutlet var passwordErrorLabel: UILabel!
     
     @IBOutlet var creditButton: UIButton!
     @IBOutlet var cardNumberErrorLabel: UILabel!
@@ -22,6 +24,7 @@ class PaymentDataTableViewController: UITableViewController {
     @IBOutlet var cardHlderErrorLabel: UILabel!
     @IBOutlet var cardHlderTextField: UITextField!
     @IBOutlet var validTextField: UITextField!
+    @IBOutlet var validErrorLabel: UILabel!
     
     @IBOutlet var confirmButton: UIButton!
     
@@ -54,12 +57,6 @@ class PaymentDataTableViewController: UITableViewController {
         cardHlderTextField.delegate = self
         validTextField.delegate = self
         
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     @IBAction func paypalButtonPressed(_ sender: UIButton) {
@@ -91,47 +88,96 @@ class PaymentDataTableViewController: UITableViewController {
     }
     
     
-    
+    //check all textfields before performing segue
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "detailSegue" {
             
             let cardNumber = cardNumberTextField.text ?? ""
             let cvvNumber = cvvTextField.text ?? ""
+            let cardHolder = cardHlderTextField.text ?? ""
             
-            
-            if !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cardString)) || cardNumber.count < 16 {
-                cardNumberTextField.layer.borderColor = UIColor.red.cgColor
-                cardNumberTextField.layer.borderWidth = 1
-                cardNumberErrorLabel.isHidden = false
-                cardNumberTextField.text = ""
-                cardString = ""
-                return false
+            if creditButton.isSelected {
                 
-            } else {
-                cardNumberErrorLabel.isHidden = true
-                cardNumberTextField.layer.borderColor = UIColor.gray.cgColor
-                cardNumberTextField.layer.borderWidth = 0.15
+                if !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cardString)) || cardNumber.count < 16 {
+                    showError(label: cardNumberErrorLabel, textField: cardNumberTextField)
+                    cardString = ""
+                    return false
+                    
+                } else {
+                    resetField(label: cardNumberErrorLabel, textField: cardNumberTextField)
+                }
+                
+                if validTextField.text == "" {
+                    showError(label: validErrorLabel, textField: validTextField)
+                    
+                    return false
+                    
+                } else {
+                    resetField(label: validErrorLabel, textField: validTextField)
+                }
+                
+                
+                if !CharacterSet.decimalDigits.isSuperset(of:CharacterSet(charactersIn: cvvString)) || cvvNumber.count < 3 {
+                    showError(label: cvvNumberErrorLabel, textField: cvvTextField)
+                    cvvString = ""
+                    return false
+                    
+                } else {
+                    resetField(label: cvvNumberErrorLabel, textField: cvvTextField)
+                }
+                
+                if CharacterSet.decimalDigits.isSuperset(of:CharacterSet(charactersIn: cardHolder)) || !isFullName(name: cardHolder) {
+                    
+                    showError(label: cardHlderErrorLabel, textField: cardHlderTextField)
+                    
+                    return false
+                    
+                } else {
+                    resetField(label: cardHlderErrorLabel, textField: cardHlderTextField)
+                }
+                
             }
-            
-            
-            if !CharacterSet.decimalDigits.isSuperset(of:CharacterSet(charactersIn: cvvString)) || cvvNumber.count < 3 {
-                cvvTextField.layer.borderColor = UIColor.red.cgColor
-                cvvTextField.layer.borderWidth = 1
-                cvvNumberErrorLabel.isHidden = false
-                cvvTextField.text = ""
-                cvvString = ""
-                return false
+            if paypalButton.isSelected {
                 
-            } else {
-                cvvNumberErrorLabel.isHidden = true
-                cvvTextField.layer.borderColor = UIColor.gray.cgColor
-                cvvTextField.layer.borderWidth = 0.15
+                if emailTextField.text == "" {
+                    showError(label: emailErrorLabel, textField: emailTextField)
+                    
+                    return false
+                    
+                } else {
+                    resetField(label: emailErrorLabel, textField: emailTextField)
+                }
+                if passWordTextField.text == "" {
+                    showError(label: passwordErrorLabel, textField: passWordTextField)
+                    
+                    return false
+                    
+                } else {
+                    resetField(label: passwordErrorLabel, textField: passWordTextField)
+                }
             }
         }
         return true
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let lastFour = String((cardNumberTextField.text?.suffix(4))!)
+        if segue.identifier == "detailSegue" {
+            let destinationVC = segue.destination as! PaymentDetailViewController
+            if creditButton.isSelected {
+                destinationVC.image = "mastercard"
+                destinationVC.paymentDetail = "Card ending in: \(lastFour)"
+                destinationVC.titleInfo = cardHlderTextField.text
+            } else if paypalButton.isSelected {
+                destinationVC.image = "paypal"
+                destinationVC.paymentDetail = emailTextField.text
+                destinationVC.titleInfo = "Paypal Credentials"
+            }
+            
+        }
+    }
     
+    //hide credit cells when paypal button is chosen and paypal cells when credit button is chosen
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         var height: CGFloat = 0.0
@@ -155,7 +201,7 @@ class PaymentDataTableViewController: UITableViewController {
         return height
     }
 }
-
+//MARK: - UIPickerViewDelegate
 extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
@@ -201,7 +247,7 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
     
 }
 
-
+//MARK: - UITextFieldDelegate
 extension PaymentDataTableViewController: UITextFieldDelegate {
     
     
@@ -211,9 +257,9 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
         let cvvNumber = cvvTextField.text ?? ""
         
         if textField == cardNumberTextField {
-            
+            // saving cardNumber
             if cardNumber.count < 16 {
-                     cardString.append(string)
+                cardString.append(string)
                 if string.isEmpty {
                     cardString.removeLast()
                 }
@@ -223,9 +269,8 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
                 return true
             }
             
-            
+            //replacing the numbers with * except for last 4 and restricting to 16 characters
             if cardNumber.count < 12 {
-                
                 cardNumberTextField.text! = "*" + cardNumberTextField.text!
                 return false
             } else {
@@ -240,9 +285,9 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
         
         
         if textField == cvvTextField {
-            
+            // saving cvv number
             if cvvNumber.count < 16 {
-                     cvvString.append(string)
+                cvvString.append(string)
                 if string.isEmpty {
                     cvvString.removeLast()
                 }
@@ -251,7 +296,7 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
             guard !string.isEmpty else {
                 return true
             }
-            
+            //replacing the numbers with * and restricting to 3 characters
             if cvvNumber.count < 3 {
                 cvvTextField.text! = "*" + cvvTextField.text!
                 return false
@@ -264,6 +309,7 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
             
         }
         return true
+        
     }
     
     
@@ -283,5 +329,26 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
         
         return true
     }
+    
+    func isFullName(name: String) -> Bool {
+        let nameArray = name.components(separatedBy: .whitespaces)
+        if nameArray.contains("") || nameArray.count < 2 {
+            return false
+        }
+        return true
+    }
+    
+    func showError(label: UILabel, textField: UITextField) {
+        textField.layer.borderColor = UIColor.red.cgColor
+        textField.layer.borderWidth = 1
+        label.isHidden = false
+        textField.text = ""
+        
+    }
+    func resetField(label: UILabel, textField: UITextField) {
+        label.isHidden = true
+        textField.layer.borderColor = UIColor.gray.cgColor
+        textField.layer.borderWidth = 0.15
+    }
+    
 }
-

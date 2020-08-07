@@ -15,6 +15,7 @@
 		D73A841A24C9EA1700A6ACCA /* PaymentDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A841924C9EA1700A6ACCA /* PaymentDataTableViewController.swift */; };
 		D73A841F24CA3B0400A6ACCA /* Credit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A841E24CA3B0400A6ACCA /* Credit.swift */; };
 		D73A842124CA3B0F00A6ACCA /* Paypal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A842024CA3B0F00A6ACCA /* Paypal.swift */; };
+		D73EF3D524DC7DC900F04A85 /* PaymentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73EF3D424DC7DC900F04A85 /* PaymentDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		D73A841924C9EA1700A6ACCA /* PaymentDataTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDataTableViewController.swift; sourceTree = "<group>"; };
 		D73A841E24CA3B0400A6ACCA /* Credit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credit.swift; sourceTree = "<group>"; };
 		D73A842024CA3B0F00A6ACCA /* Paypal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paypal.swift; sourceTree = "<group>"; };
+		D73EF3D424DC7DC900F04A85 /* PaymentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				D73A841924C9EA1700A6ACCA /* PaymentDataTableViewController.swift */,
+				D73EF3D424DC7DC900F04A85 /* PaymentDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 			files = (
 				D73A840624C9E27600A6ACCA /* AppDelegate.swift in Sources */,
 				D73A842124CA3B0F00A6ACCA /* Paypal.swift in Sources */,
+				D73EF3D524DC7DC900F04A85 /* PaymentDetailViewController.swift in Sources */,
 				D73A841A24C9EA1700A6ACCA /* PaymentDataTableViewController.swift in Sources */,
 				D73A841F24CA3B0400A6ACCA /* Credit.swift in Sources */,
 				D73A840824C9E27600A6ACCA /* SceneDelegate.swift in Sources */,

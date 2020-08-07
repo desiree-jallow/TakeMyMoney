@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "paypal Image.png",
+      "filename" : "mastercard.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "paypal Image@2x.png",
+      "filename" : "mastercard@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "paypal Image@3x.png",
+      "filename" : "mastercard@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
