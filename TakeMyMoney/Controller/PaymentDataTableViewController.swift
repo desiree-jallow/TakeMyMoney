@@ -60,27 +60,11 @@ class PaymentDataTableViewController: UITableViewController {
     }
     
     @IBAction func paypalButtonPressed(_ sender: UIButton) {
-        if !paypalButton.isSelected {
-            paypalButton.isSelected = true
-            paypalButton.backgroundColor = .systemBlue
-            creditButton.backgroundColor = .gray
-            
-        }
-        creditButton.isSelected = false
-        
-        tableView.reloadData()
+        setUpPaymentButton(for: paypalButton, otherButton: creditButton)
     }
     
     @IBAction func creditButtonPressed(_ sender: UIButton) {
-        if !creditButton.isSelected {
-            creditButton.isSelected = true
-            creditButton.backgroundColor = .systemBlue
-            paypalButton.backgroundColor = .gray
-            
-        }
-        paypalButton.isSelected = false
-        
-        tableView.reloadData()
+        setUpPaymentButton(for: creditButton, otherButton: paypalButton)
     }
     
     @IBAction func confirmButtonPressed(_ sender: UIButton) {
@@ -97,62 +81,66 @@ class PaymentDataTableViewController: UITableViewController {
             let cardHolder = cardHlderTextField.text ?? ""
             
             if creditButton.isSelected {
-                
+                //If input does not only contain numbers or input is less than 16 characters show error label, clear text field and do not perform segue
                 if !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cardString)) || cardNumber.count < 16 {
                     showError(label: cardNumberErrorLabel, textField: cardNumberTextField)
                     cardString = ""
                     return false
-                    
+                   //remove error label and red color around text field and perform segue
                 } else {
                     resetField(label: cardNumberErrorLabel, textField: cardNumberTextField)
                 }
                 
+                //If valid text field is empty show error label and do not perform segue
                 if validTextField.text == "" {
                     showError(label: validErrorLabel, textField: validTextField)
-                    
                     return false
                     
                 } else {
+                    //remove error label and red color around text field and perform segue
                     resetField(label: validErrorLabel, textField: validTextField)
                 }
                 
-                
-                if !CharacterSet.decimalDigits.isSuperset(of:CharacterSet(charactersIn: cvvString)) || cvvNumber.count < 3 {
+                //If input does not only contain numbers or input is less than 3 characters show error label, clear text field and do not perform segue
+                if !CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cvvString)) || cvvNumber.count < 3 {
                     showError(label: cvvNumberErrorLabel, textField: cvvTextField)
                     cvvString = ""
                     return false
                     
                 } else {
+                    //remove error label and red color around text field and perform segue
                     resetField(label: cvvNumberErrorLabel, textField: cvvTextField)
                 }
                 
+                //If input contains numbers or input does not have at least one space show error label, clear text field and do not perform segue
                 if CharacterSet.decimalDigits.isSuperset(of:CharacterSet(charactersIn: cardHolder)) || !isFullName(name: cardHolder) {
-                    
                     showError(label: cardHlderErrorLabel, textField: cardHlderTextField)
-                    
                     return false
                     
                 } else {
+                    //remove error label and red color around text field and perform segue
                     resetField(label: cardHlderErrorLabel, textField: cardHlderTextField)
                 }
                 
             }
+            
             if paypalButton.isSelected {
-                
+                //If email text field is empty show error label and do not perform segue
                 if emailTextField.text == "" {
                     showError(label: emailErrorLabel, textField: emailTextField)
-                    
                     return false
                     
                 } else {
+                    //remove error label and red color around text field and perform segue
                     resetField(label: emailErrorLabel, textField: emailTextField)
                 }
+                //If password text field is empty show error label and do not perform segue
                 if passWordTextField.text == "" {
                     showError(label: passwordErrorLabel, textField: passWordTextField)
-                    
                     return false
                     
                 } else {
+                    //remove error label and red color around text field and perform segue
                     resetField(label: passwordErrorLabel, textField: passWordTextField)
                 }
             }
@@ -173,10 +161,12 @@ class PaymentDataTableViewController: UITableViewController {
                 destinationVC.paymentDetail = emailTextField.text
                 destinationVC.titleInfo = "Paypal Credentials"
             }
-            
         }
     }
-    
+}
+
+//MARK: - UITableViewDelegate
+extension PaymentDataTableViewController {
     //hide credit cells when paypal button is chosen and paypal cells when credit button is chosen
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -203,16 +193,14 @@ class PaymentDataTableViewController: UITableViewController {
 }
 //MARK: - UIPickerViewDelegate
 extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 12
-        
     }
+    //set valid text field to selected month and year in the picker view
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let years = createYearsArray()
         
@@ -221,7 +209,7 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
         
         validTextField.text = "\(selectedMonth)/\(selectedYear)"
     }
-    
+    //set title for picker view
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let dateFormatter = DateFormatter()
         let years = createYearsArray()
@@ -233,9 +221,8 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
         }
         
     }
-    
+    //create years for picker view
     func createYearsArray() -> [String] {
-        
         let calender = Calendar.current
         let numberOfYears = 12
         let currentYear = calender.component(.year, from: Date())
@@ -244,13 +231,10 @@ extension PaymentDataTableViewController: UIPickerViewDelegate, UIPickerViewData
         let years = (currentYear...yearInt).map {String($0)}
         return years
     }
-    
 }
 
 //MARK: - UITextFieldDelegate
 extension PaymentDataTableViewController: UITextFieldDelegate {
-    
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let cardNumber = cardNumberTextField.text ?? ""
@@ -274,15 +258,12 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
                 cardNumberTextField.text! = "*" + cardNumberTextField.text!
                 return false
             } else {
-                
                 guard let stringRange = Range(range, in: cardNumber) else {return false}
                 let updatedText = cardNumber.replacingCharacters(in: stringRange, with: string)
                 
                 return updatedText.count <= 16
             }
-            
         }
-        
         
         if textField == cvvTextField {
             // saving cvv number
@@ -296,6 +277,7 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
             guard !string.isEmpty else {
                 return true
             }
+            
             //replacing the numbers with * and restricting to 3 characters
             if cvvNumber.count < 3 {
                 cvvTextField.text! = "*" + cvvTextField.text!
@@ -306,13 +288,11 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
                 
                 return updatedText.count <= 3
             }
-            
         }
         return true
-        
     }
     
-    
+    //changes text field when user presses enter
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case cardNumberTextField:
@@ -326,29 +306,50 @@ extension PaymentDataTableViewController: UITextFieldDelegate {
         default:
             passWordTextField.resignFirstResponder()
         }
-        
+
         return true
     }
-    
-    func isFullName(name: String) -> Bool {
-        let nameArray = name.components(separatedBy: .whitespaces)
-        if nameArray.contains("") || nameArray.count < 2 {
-            return false
-        }
-        return true
-    }
-    
-    func showError(label: UILabel, textField: UITextField) {
-        textField.layer.borderColor = UIColor.red.cgColor
-        textField.layer.borderWidth = 1
-        label.isHidden = false
-        textField.text = ""
-        
-    }
-    func resetField(label: UILabel, textField: UITextField) {
-        label.isHidden = true
-        textField.layer.borderColor = UIColor.gray.cgColor
-        textField.layer.borderWidth = 0.15
-    }
-    
 }
+    
+    extension PaymentDataTableViewController {
+        //Check if name contains a space in between two words
+        func isFullName(name: String) -> Bool {
+            let nameArray = name.components(separatedBy: .whitespaces)
+            if nameArray.contains("") || nameArray.count < 2 {
+                return false
+            }
+            return true
+        }
+        
+        //show error label and show red border around text field
+        func showError(label: UILabel, textField: UITextField) {
+            textField.layer.borderColor = UIColor.red.cgColor
+            textField.layer.borderWidth = 1
+            label.isHidden = false
+            textField.text = ""
+        }
+        
+        //reset field to original state
+        func resetField(label: UILabel, textField: UITextField) {
+            label.isHidden = true
+            textField.layer.borderColor = UIColor.gray.cgColor
+            textField.layer.borderWidth = 0.15
+        }
+        
+        //set up selected payment button
+        func setUpPaymentButton(for selectedButton: UIButton, otherButton: UIButton) {
+            if !selectedButton.isSelected {
+                selectedButton.isSelected = true
+                selectedButton.backgroundColor = .systemBlue
+                otherButton.backgroundColor = .gray
+            }
+            otherButton.isSelected = false
+            
+            tableView.reloadData()
+        }
+    }
+    
+    
+   
+    
+
