@@ -18,8 +18,6 @@ class PaymentDetailViewController: UIViewController {
     var image: String?
     var paymentDetail: String?
     var titleInfo: String?
-   
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +26,14 @@ class PaymentDetailViewController: UIViewController {
         if let image = image {
         paymentImage.image = UIImage(named: image)
         }
+        
         paymentLabel.text = paymentDetail
         titleLabel.text = titleInfo
     
 
         // Do any additional setup after loading the view.
     }
-    
+    //create alert pop up for pay button
     @IBAction func payButtonPressed(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Uh Oh!", message: "Your payment has failed!", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
